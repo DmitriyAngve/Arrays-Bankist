@@ -156,7 +156,7 @@ movements.forEach(function (mov, i, arr) {
   if (mov > 0) {
     console.log(`Movement ${i + 1}: ${mov}`);
   } else {
-    console.log(`Movement ${i + 1}: ${Math.abs(mov)}`);
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(mov)}`);
   }
 });
 //0: function(200)
@@ -193,3 +193,61 @@ currenciesUnique.forEach(function (value, _, map) {
 ////////////////////////////////////////////////////////////////////
 /////////////////////CODING CHALLENGE #1////////////////////////////
 ////////////////////////////////////////////////////////////////////
+
+/*
+const dogsJulia = [3, 5, 2, 12, 7];
+const dogsKate = [4, 1, 15, 8, 3];
+// const dogsJulia = [9, 16, 6, 8, 3];
+// const dogsKate = [10, 5, 6, 1, 4];
+
+const checkDogs = function (dogsJulia, dogsKate) {
+  const allDogs = dogsJulia.slice(1, -2).concat(dogsKate);
+  console.log(allDogs);
+  allDogs.forEach(function (x, y) {
+    if (x >= 3) {
+      console.log(`Dog number ${y + 1} is an adult, and is ${x} years old`);
+    } else {
+      console.log(`Dog number ${y + 1} still a puppy`);
+    }
+  });
+};
+checkDogs(dogsJulia, dogsKate);
+*/
+
+////////////////////////////////////////////////////////////////////
+////////////////DATA TRANSFORMATIONS: MAP, FILTER, REDUCE///////////
+////////////////////////////////////////////////////////////////////
+
+//----------------------------MAP----------------------------------
+
+// Map method give as a brand new array and this new array will contain in each position the result of applying a callback function to the original array elements
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const euroToUsd = 1.1;
+
+// With function expression
+const movementUSD2 = movements.map(function (mov) {
+  return mov * euroToUsd;
+  // return 23; // [23, 23, 23, 23, 23, 23, 23, 23] 8 elements like a movement array. Put 23 at the same position.It's useless
+});
+console.log(movements);
+console.log(movementUSD2);
+
+// With for-of wihout "map"
+const movementUSDfor = [];
+for (const mov of movements) movementUSDfor.push(mov * euroToUsd);
+console.log(movementUSDfor);
+
+// With arrow function
+const movementUSD = movements.map(mov => mov * euroToUsd);
+
+console.log(movementUSD);
+
+const movementDescriptions = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )} `
+);
+console.log(movementDescriptions); //['Movement 1: You deposited 200 ', 'Movement 2: You deposited 450 ', 'Movement 3: You withdrew 400 ', 'Movement 4: You deposited 3000 ', 'Movement 5: You withdrew 650 ', 'Movement 6: You withdrew 130 ', 'Movement 7: You deposited 70 ', 'Movement 8: You deposited 1300 ']
