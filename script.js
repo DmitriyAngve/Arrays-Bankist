@@ -300,3 +300,10 @@ console.log(balance); // 3840
 let balance2 = 0; // initial value
 for (const mov of movements) balance2 += mov;
 console.log(balance2); // 3840
+
+// Get maximum value of the array
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+console.log(max); // 3000
