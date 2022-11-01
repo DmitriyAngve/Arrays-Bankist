@@ -221,7 +221,7 @@ checkDogs(dogsJulia, dogsKate);
 //----------------------------MAP----------------------------------
 
 // Map method give as a brand new array and this new array will contain in each position the result of applying a callback function to the original array elements
-
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 const euroToUsd = 1.1;
@@ -251,3 +251,52 @@ const movementDescriptions = movements.map(
     )} `
 );
 console.log(movementDescriptions); //['Movement 1: You deposited 200 ', 'Movement 2: You deposited 450 ', 'Movement 3: You withdrew 400 ', 'Movement 4: You deposited 3000 ', 'Movement 5: You withdrew 650 ', 'Movement 6: You withdrew 130 ', 'Movement 7: You deposited 70 ', 'Movement 8: You deposited 1300 ']
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////////THE FILTER METHOD//////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/*
+// Filter
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const deposites = movements.filter(function (mov) {
+  return mov > 0;
+});
+
+console.log(movements); // [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(deposites); // [200, 450, 3000, 70, 1300]
+
+// For-of disadvatage of "for-of" it's completely impossible to use method chaining
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor); // [200, 450, 3000, 70, 1300]
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals); // [-400, -650, -130]
+
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////////THE REDUCE METHOD//////////////////////////
+////////////////////////////////////////////////////////////////////
+
+// Reduce boil down all the elements in an array to one single value
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// acc(accumulator  -> SNOWBALL)
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+//   console.log(`uteration ${i}: ${acc}`);
+//   return acc + cur;
+// }, 0); // 0 - starter (initial value)
+// console.log(balance); // 3840
+
+// Arrow function
+const balance = movements.reduce((acc, cur) => acc + cur, 0);
+console.log(balance); // 3840
+
+// With For-of
+let balance2 = 0; // initial value
+for (const mov of movements) balance2 += mov;
+console.log(balance2); // 3840
