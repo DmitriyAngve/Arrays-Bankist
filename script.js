@@ -65,13 +65,13 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // LECTURES
 
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
+// const currencies = new Map([
+//   ['USD', 'United States dollar'],
+//   ['EUR', 'Euro'],
+//   ['GBP', 'Pound sterling'],
+// ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 ////////////////////////////////////////////////////////////////////
 ///////////////////////SIMPLE ARRAY METHODS/////////////////////////
@@ -131,4 +131,65 @@ console.log('jonas'.at(-1)); // s
 */
 ////////////////////////////////////////////////////////////////////
 /////////////////////LOOPING ARRAYS: FOREACH////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/*
+// Example. This is bank account. Positive values - deposits, negative values - withdraws
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// #1 WAY for of
+console.log('-----------FOROF------------');
+// for (const movement of movements) {
+for (const [i, movement] of movements.entries()) {
+  if (movement > 0) {
+    console.log(`Movement ${i + 1}: ${movement}`);
+  } else {
+    console.log(`Movement ${i + 1}: ${Math.abs(movement)}`);
+  }
+}
+
+// #2 WAY forEach
+console.log('-----------FOREACH------------');
+// .forEach() - its high-order function which requires a callback function!
+// callback function will receive the current element of the array (movement)
+movements.forEach(function (mov, i, arr) {
+  if (mov > 0) {
+    console.log(`Movement ${i + 1}: ${mov}`);
+  } else {
+    console.log(`Movement ${i + 1}: ${Math.abs(mov)}`);
+  }
+});
+//0: function(200)
+//1: function(450)
+//2: function(400)
+// movements.forEach(function (mov, i, arr): first argument - current paramater; second - currentIndex; third - entire array
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////FOREACH WITH MAPS AND SETS/////////////////////
+////////////////////////////////////////////////////////////////////
+
+/*
+// MAP
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]); // 'USD' - KEY; 'United States dollar' - VALUE
+
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+
+// SET
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique); // Set(3) {'USD', 'GBP', 'EUR'}
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${value}: ${value}`); // USD: USD... - because argument "key" makes no sense (second argument ommited)
+});
+// "_" - argument completely unnecessary
+
+*/
+////////////////////////////////////////////////////////////////////
+/////////////////////PROJECT: "BANKIST" APP/////////////////////////
 ////////////////////////////////////////////////////////////////////
