@@ -280,14 +280,14 @@ console.log(withdrawals); // [-400, -650, -130]
 ////////////////////////////////////////////////////////////////////
 /////////////////////////THE REDUCE METHOD//////////////////////////
 ////////////////////////////////////////////////////////////////////
-
+/*
 // Reduce boil down all the elements in an array to one single value
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // acc(accumulator  -> SNOWBALL)
 // const balance = movements.reduce(function (acc, cur, i, arr) {
-//   console.log(`uteration ${i}: ${acc}`);
+//   console.log(`Iteration ${i}: ${acc}`);
 //   return acc + cur;
 // }, 0); // 0 - starter (initial value)
 // console.log(balance); // 3840
@@ -307,3 +307,104 @@ const max = movements.reduce((acc, mov) => {
   else return mov;
 }, movements[0]);
 console.log(max); // 3000
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////CODING CHALLENGE #2////////////////////////////
+////////////////////////////////////////////////////////////////////
+/*
+const dogs = [16, 6, 10, 5, 6, 1, 4];
+// Function expression
+// const calcAverageHumanAge = dogs.map(function (age, i) {
+//   console.log(`Dog age number ${i + 1}: ${age <= 2 ? 2 * age : 16 + age * 4}`);
+// });
+
+// console.log(calcAverageHumanAge());
+
+//Arrow function
+// const calcAverageHumanAge = dogs.map((age, i) =>
+//   console.log(`Dog age number ${i + 1}: ${age <= 2 ? 2 * age : 16 + age * 4}`)
+// );
+
+// console.log(calcAverageHumanAge());
+
+// const withdrawals = movements.filter(mov => mov < 0);
+// console.log(withdrawals); // [-400, -650, -130]
+
+const calcAverageHumanAge = function (ages) {
+  const humanAges = dogs
+    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+    .filter(adultAge => adultAge > 18);
+  // console.log(humanAges);
+  const average = humanAges.reduce(
+    (acc, age, i, arr) => acc + age / arr.length,
+    0
+  );
+  // console.log(average);
+  return average;
+};
+const avgDogs = calcAverageHumanAge(dogs);
+console.log(avgDogs);
+*/
+
+////////////////////////////////////////////////////////////////////
+////////////////////////CHAINING METHODS////////////////////////////
+////////////////////////////////////////////////////////////////////
+/*
+// How much into the account in US dollars? Let's do it all in one goal
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const euroToUsd = 1.1;
+console.log(movements);
+
+//LIKE A PIPELINE
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  // .map(mov => mov * euroToUsd)
+  .map((mov, i, arr) => {
+    // arr - it's a new array from filter method
+    // console.log(arr);
+    return mov * euroToUsd;
+  })
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositsUSD); // 5522.000000000001
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////CODING CHALLENGE #3////////////////////////////
+////////////////////////////////////////////////////////////////////
+/*
+const dogs = [16, 6, 10, 5, 6, 1, 4];
+
+const average = dogs
+  .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+  .filter(age => age > 18)
+  .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
+console.log(average);
+
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////////THE FIND METHOD////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+/*
+// We can retrieve one element of an array based on a condition
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// Find that loops over the array and return element itself
+// movements.find(mov => mov < 0); // return only the first element that satisfies this condition
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account); // owner: 'Jessica Davis', movements: Array(8), interestRate: 1.5, pin: 2222} - Extract only 1 object from array of objects
+*/
+
+////////////////////////////////////////////////////////////////////
+/////////////////////////IMPLEMENTING LOGIN/////////////////////////
+////////////////////////////////////////////////////////////////////
