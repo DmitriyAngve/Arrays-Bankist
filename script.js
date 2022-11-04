@@ -406,5 +406,103 @@ console.log(account); // owner: 'Jessica Davis', movements: Array(8), interestRa
 */
 
 ////////////////////////////////////////////////////////////////////
-/////////////////////////IMPLEMENTING LOGIN/////////////////////////
+/////////////////////////THE FINDINDEX METHOD///////////////////////
 ////////////////////////////////////////////////////////////////////
+/*
+// Return index in general same as find
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////SOME AND EVERY//////////////////////////
+////////////////////////////////////////////////////////////////////
+
+// SOME
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// For checking EQUALITY
+console.log(movements.includes(-130)); // true - if any value of an array is exactly equal (-130)
+
+console.log(movements);
+
+// For checking CONDITION
+console.log(movements.some(mov => mov === -130)); // true
+// If we want to know if there is any positive movement in this array (any number above 0)
+const anyDeposites = movements.some(mov => mov > 0);
+console.log(anyDeposites); // true
+const anyDeposites2 = movements.some(mov => mov > 5000);
+console.log(anyDeposites2); // false
+
+// EVERY
+// Returns true if all of the elements in the array satisfy the condition
+console.log(movements.every(mov => mov > 0)); // false
+console.log(account4.movements.every(mov => mov > 0)); // true
+
+// Separate callback (reusable)
+const deposit = mov => mov > 0;
+console.log(movements.some(deposit)); // true
+console.log(movements.every(deposit)); // false
+console.log(movements.filter(deposit)); // [200, 450, 3000, 70, 1300]
+*/
+
+////////////////////////////////////////////////////////////////////
+//////////////////////////FLAT AND FLATMAP//////////////////////////
+////////////////////////////////////////////////////////////////////
+/*
+// Flat - remove the nested arrays and flattend into one array
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8]; // nested arrays
+console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+console.log(arrDeep.flat()); // [[1, 2], 3, 4, [5, 6], 7, 8]; destroyed only one-level nest
+console.log(arrDeep.flat(2)); // [1, 2, 3, 4, 5, 6, 7, 8] ".flat(2) - 2 level depth!"
+
+// Example
+const overalBalance = accounts
+  .map(acc => acc.movements)
+  .flat()
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance); // 17840 using .map first, and .flat for the result
+
+// FlatMap
+const overalBalance2 = accounts
+  .flatMap(acc => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+console.log(overalBalance2); // 17840 ONLY for 1 level DEEP
+*/
+
+////////////////////////////////////////////////////////////////////
+//////////////////////////SORTING ARRAYS////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// Strings
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+console.log(owners.sort()); // ['Adam', 'Jonas', 'Martha', 'Zach']
+console.log(owners); // ['Adam', 'Jonas', 'Martha', 'Zach'] MUTATED ARRAY
+
+// Numbers
+console.log(movements);
+console.log(movements.sort()); // [-130, -400, -650, 1300, 200, 3000, 450, 70] based on strings by default!!!
+
+// With callback (consecuntive - последовательный)
+// (a, b) - a (current value), b (next value) two consecuntive numbers of the array.
+// If we sorted < 0, then A before B (keep order)
+// If > 0 B before A (switch order)
+
+// Ascending (по возрастанию)
+movements.sort((a, b) => {
+  if (a > b) return 1; // if a greater than be would, then a-b always be positive (return 1)
+  if (a < b) return -1; // if a less then b than, then a-b always be negative (return -1)
+});
+// Rewrite
+movements.sort((a, b) => a - b);
+
+console.log(movements); // [-650, -400, -130, 70, 200, 450, 1300, 3000]
+// Descending (по убыванию)
+movements.sort((a, b) => {
+  if (a > b) return -1;
+  if (a < b) return 1;
+});
+// Rewrite
+movements.sort((a, b) => b - a);
+console.log(movements); // [3000, 1300, 450, 200, 70, -130, -400, -650]
