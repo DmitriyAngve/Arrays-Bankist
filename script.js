@@ -61,6 +61,177 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+////////////////////////////////////////////////////////////////////
+/////////////////////PROJECT:"BANKIST" APP//////////////////////////
+////////////////////////////////////////////////////////////////////
+
+const displayMovements = function (movements, sort = false) {
+  // fill empty entire html container
+  containerMovements.innerHTML = ''; // .innerHTML return everything, including the HTML (all HTML tags will be included)
+
+  // slice - for copy an array
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    // Create a string
+
+    const html = `
+      <div class="movements__row">
+        <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>
+        <div class="movements__value">${mov}€</div>
+      </div>
+    `;
+
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+
+// Balance
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+
+  labelBalance.textContent = `${acc.balance} €`;
+};
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = acc.movements
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc - mov, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = acc.movements
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1;
+      // Only interest above 1
+    })
+    .reduce((acc, int) => acc + int, 0);
+  labelSumInterest.textContent = `${interest}`;
+};
+
+// Initials
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+
+const updateUI = function (acc) {
+  // Display movements
+  displayMovements(acc.movements);
+  // Display balance
+  calcDisplayBalance(acc);
+  // Display summary
+  calcDisplaySummary(acc);
+};
+
+// Event handler
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI  message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // Clear input field
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    // Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    // Add movement
+    currentAccount.movements.push(amount);
+    // Update UI
+    updateUI(currentAccount);
+    inputLoanAmount.value = '';
+  }
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted; // flipp from true and false
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -472,7 +643,7 @@ console.log(overalBalance2); // 17840 ONLY for 1 level DEEP
 ////////////////////////////////////////////////////////////////////
 //////////////////////////SORTING ARRAYS////////////////////////////
 ////////////////////////////////////////////////////////////////////
-
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Strings
@@ -506,3 +677,55 @@ movements.sort((a, b) => {
 // Rewrite
 movements.sort((a, b) => b - a);
 console.log(movements); // [3000, 1300, 450, 200, 70, -130, -400, -650]
+*/
+
+////////////////////////////////////////////////////////////////////
+///////////////MORE WAYS OF CREATING AND FILLING ARRAYS/////////////
+////////////////////////////////////////////////////////////////////
+
+// Ways of create an array
+const arr = [1, 2, 3, 4, 5, 6, 7];
+console.log(new Array(1, 2, 3, 4, 5, 6, 7));
+
+//--------------Fill method plus empty arrays-----------------------
+// Create array programmatically
+const x = new Array(7); // this weird behavior of this Array() function which does if so that whenever we only pass in one argument, then it creates a new empty argument with that length
+console.log(x); // [empty × 7]
+
+console.log(x.map(() => 5)); // [empty × 7] We can use only one method in this arrqay - fill() method
+
+// Fill
+// x.fill(1);
+// console.log(x); // [1, 1, 1, 1, 1, 1, 1]
+
+// x.fill(1, 3);
+// console.log(x); // [empty × 3, 1, 1, 1, 1]
+
+// x.fill(1, 3, 5);
+// console.log(x); // [empty × 3, 1, 1, empty × 2]
+
+arr.fill(23, 4, 6);
+console.log(arr); // [1, 2, 3, 4, 23, 23, 7]
+
+// Array.from()
+const y = Array.from({ length: 7 }, () => 1);
+console.log(y); // [1, 1, 1, 1, 1, 1, 1]
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1);
+console.log(z); // [1, 2, 3, 4, 5, 6, 7] (_, i) - underscore parameter - its mean we dont use this parameter
+
+// Usefull for iteration of NodeList
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const movementsUI = Array.from(document.querySelectorAll('.movements__value'));
+// console.log(movementsUI); // [div.movements__value, div.movements__value]
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(movementsUI);
+  const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+}); // [1300, 70, -130, -650, 3000, -400, 450, 200] Nodelist is not array, but array like structure
