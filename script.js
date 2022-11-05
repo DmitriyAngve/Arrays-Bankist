@@ -812,7 +812,7 @@ console.log(convertTitleCase('and here is another title with an EXAMPLE'));
 ////////////////////////////////////////////////////////////////////
 /////////////////////CODING CHALLENGE #4////////////////////////////
 ////////////////////////////////////////////////////////////////////
-
+/*
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
   { weight: 8, curFood: 200, owners: ['Matilda'] },
@@ -820,19 +820,17 @@ const dogs = [
   { weight: 32, curFood: 340, owners: ['Michael'] },
 ];
 
-// 1. Add new property while iterating
+// 1. Create new property iterating over an array
 dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight ** 0.75 * 28)));
 console.log(dogs);
-
-// 2. Find object by array element
+// 2. Find property in arrays of object
 const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
 console.log(
-  `Sarah's dog eating ${
+  `Sarah's dogs eat too ${
     dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
-  } `
+  }`
 );
-
-// 3. Creating two array from array of objects based on condition
+// 3. Extract an array from an object according to a condition
 const ownersEatTooMuch = dogs
   .filter(dog => dog.curFood > dog.recFood)
   .flatMap(dog => dog.owners);
@@ -841,24 +839,18 @@ const ownersEatTooLittle = dogs
   .filter(dog => dog.curFood < dog.recFood)
   .flatMap(dog => dog.owners);
 console.log(ownersEatTooLittle);
-
-// 4.
-// Matilda and Alice and Bob's dogs eat too much!" / "Sarah and John and Michael's dogs eat too little!
+// 4. Log to console string based on array
 console.log(`${ownersEatTooMuch.join(' and ')} dogs eat too much!`);
 console.log(`${ownersEatTooLittle.join(' and ')} dogs eat too little!`);
-
-// 5. Find with condition
-console.log(dogs.some(dogs => dogs.curFood === dogs.recFood));
-
-// 6.current > (recommended * 0.90) && current < (recommended * 1.10)
-const checkEatingOkay = dog =>
+// 5. Compare property of array of object with condition
+console.log(dogs.some(dog => dog.curFood === dogs.recFood));
+// 6. Log to the console compare with condition
+const checking = dog =>
   dog.curFood > dog.recFood * 0.9 && dog.curFood < dog.recFood * 1.1;
-console.log(dogs.some(checkEatingOkay));
-
-// 7. Create an array containing dogs that are eating an OKAY anount of food
-console.log(dogs.filter(checkEatingOkay));
-
-// 8. Created a swallow copy of array and sort it
-
-const dogsSorted = dogs.slice().sort((a, b) => a.recFood - b.recFood);
-console.log(dogsSorted);
+console.log(dogs.some(checking));
+// 7. create an array contains on condition in previous task
+console.log(dogs.filter(checking));
+// 8. Create a shallow copy of original array
+const sortedDogs = dogs.slice().sort((a, b) => a.recFood - b.recFood);
+console.log(sortedDogs);
+*/
